@@ -1,0 +1,26 @@
+{
+  "name": "drag-and-drop-typescript",
+  "version": "1.0.0",
+  "description": "Drag and drop!",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "lite-server"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/subhatav/drag-and-drop-typescript.git"
+  },
+  "keywords": [
+    "typescript"
+  ],
+  "author": "Subhatav Dhali",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/subhatav/drag-and-drop-typescript/issues"
+  },
+  "homepage": "https://github.com/subhatav/drag-and-drop-typescript#readme",
+  "devDependencies": {
+    "lite-server": "^2.6.1"
+  }
+}
