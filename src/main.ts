@@ -129,14 +129,111 @@ function AutoBind(_1: any, _2: string, descriptor: PropertyDescriptor) {
   return adjustedDescriptor;
 }
 
-class ProjectInput {
-  templateElement: HTMLTemplateElement;
-  hostElement: HTMLDivElement;
-  formElement: HTMLFormElement;
+class ProjectState {
+  private projects: any[] = [];
+  private listeners: Function[] = [];
+  private static instance: ProjectState;
 
-  titleInputElement: HTMLInputElement;
-  descriptionInputElement: HTMLInputElement;
-  peopleCountInputElement: HTMLInputElement;
+  private constructor() {}
+
+  static getInstance() {
+    if (this.instance) {
+      return this.instance;
+    }
+
+    this.instance = new ProjectState();
+
+    return this.instance;
+  }
+
+  addListener(listenerFn: Function) {
+    this.listeners.push(listenerFn);
+  }
+
+  addProject(title: string, description: string, peopleCount: number) {
+    const project = {
+      id: Math.random().toString(),
+      title: title,
+      description: description,
+      peopleCount: peopleCount,
+    };
+
+    this.projects.push(project);
+
+    for (const listenerFn of this.listeners) {
+      listenerFn(this.projects.slice());
+    }
+  }
+}
+
+class ProjectList {
+  private templateElement: HTMLTemplateElement;
+  private hostElement: HTMLDivElement;
+  private sectionElement: HTMLElement;
+
+  private assignedProjects: any[];
+
+  constructor(private type: "active" | "finished") {
+    // `templateElement` gives access to the Template that holds this Template Content
+    this.templateElement = document.getElementById(
+      "project-list"
+    )! as HTMLTemplateElement;
+    // `hostElement` holds a Reference to the Element where Template Content will be rendered
+    this.hostElement = document.getElementById("app")! as HTMLDivElement;
+
+    // Deep Cloning => all the Levels of Nesting inside the Template
+    const importedNode = document.importNode(
+      this.templateElement.content,
+      true
+    );
+
+    this.sectionElement = importedNode.firstElementChild as HTMLElement;
+    this.sectionElement.id = `${this.type}-projects`;
+
+    this.assignedProjects = [];
+
+    prjState.addListener((projects: any[]) => {
+      this.assignedProjects = projects;
+      this.renderProjects();
+    });
+
+    this.attach(this.sectionElement);
+    this.renderContent();
+  }
+
+  private renderProjects() {
+    const listElement = document.getElementById(
+      `${this.type}-projects-list`
+    )! as HTMLUListElement;
+
+    for (const prjItem of this.assignedProjects) {
+      const listItem = document.createElement("li");
+
+      listItem.textContent = prjItem.title;
+      listElement.appendChild(listItem);
+    }
+  }
+
+  private renderContent() {
+    const listId = `${this.type}-projects-list`;
+
+    this.sectionElement.querySelector("ul")!.id = listId;
+    this.sectionElement.querySelector("h2")!.textContent =
+      this.type.toUpperCase() + " PROJECTS";
+  }
+  private attach(fragment: Element) {
+    this.hostElement.insertAdjacentElement("beforeend", fragment);
+  }
+}
+
+class ProjectInput {
+  private templateElement: HTMLTemplateElement;
+  private hostElement: HTMLDivElement;
+  private formElement: HTMLFormElement;
+
+  private titleInputElement: HTMLInputElement;
+  private descriptionInputElement: HTMLInputElement;
+  private peopleCountInputElement: HTMLInputElement;
 
   constructor() {
     // `templateElement` gives access to the Template that holds this Template Content
@@ -238,7 +335,8 @@ class ProjectInput {
 
     if (Array.isArray(userInput)) {
       const [title, desc, people] = userInput;
-      console.log(title, desc, people);
+      prjState.addProject(title, desc, people);
+
       this.clearInputs();
     }
   }
@@ -254,4 +352,9 @@ class ProjectInput {
   }
 }
 
-const myProject = new ProjectInput();
+const prjState = ProjectState.getInstance();
+
+const prjInput = new ProjectInput();
+
+const activePrjList = new ProjectList("active");
+const finishedPrjList = new ProjectList("finished");
