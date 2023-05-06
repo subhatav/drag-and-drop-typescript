@@ -1,7 +1,7 @@
 {
-  "name": "drag-and-drop-typescript",
+  "name": "projects-manager-typescript",
   "version": "1.0.0",
-  "description": "Drag and drop!",
+  "description": "Drag and drop your projects!",
   "main": "index.html",
   "scripts": {
     "start": "lite-server"
@@ -14,12 +14,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/subhatav/drag-and-drop-typescript.git"
+    "url": "git+https://github.com/subhatav/projects-manager-typescript.git"
   },
   "author": "Subhatav Dhali",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/subhatav/drag-and-drop-typescript/issues"
+    "url": "https://github.com/subhatav/projects-manager-typescript/issues"
   },
-  "homepage": "https://github.com/subhatav/drag-and-drop-typescript#readme"
+  "homepage": "https://github.com/subhatav/projects-manager-typescript#readme"
 }

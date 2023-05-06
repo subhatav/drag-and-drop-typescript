@@ -1,2 +1,2 @@
 # drag-and-drop-typescript
-Drag and drop!
+Drag and drop your projects!
