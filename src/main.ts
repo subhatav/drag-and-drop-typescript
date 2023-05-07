@@ -1,9 +1,8 @@
-/// <reference path="./integrant/input.ts"/>
-/// <reference path="./integrant/list.ts"/>
+import { ProjectList } from "./integrant/list.js";
+import { ProjectInput } from "./integrant/input.js";
+import { ProjectStatus } from "./entity/project.js";
 
-namespace App {
-  new ProjectInput();
+new ProjectInput();
 
-  new ProjectList(ProjectStatus.Active);
-  new ProjectList(ProjectStatus.Finished);
-}
+new ProjectList(ProjectStatus.Active);
+new ProjectList(ProjectStatus.Finished);

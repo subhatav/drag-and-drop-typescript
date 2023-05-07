@@ -1,55 +1,51 @@
-/// <reference path="./base.ts"/>
+import Foundation from "./base.js";
+import { Project } from "../entity/project.js";
+import { Draggable } from "../entity/drag-drop.js";
+import { AutoBind } from "../decorator/auto-bind.js";
 
-/// <reference path="../entity/project.ts"/>
-/// <reference path="../entity/drag-drop.ts"/>
+export class ProjectItem
+  extends Foundation<HTMLUListElement, HTMLLIElement>
+  implements Draggable
+{
+  private project: Project;
 
-/// <reference path="../decorator/auto-bind.ts"/>
+  get peopleCount() {
+    return (
+      this.project.peopleCount +
+      " Person" +
+      (this.project.peopleCount === 1 ? "" : "s")
+    );
+  }
 
-namespace App {
-  export class ProjectItem
-    extends Component<HTMLUListElement, HTMLLIElement>
-    implements Draggable
-  {
-    private project: Project;
+  constructor(hostId: string, project: Project) {
+    super("single-project", hostId, false, project.id);
+    this.project = project;
 
-    get peopleCount() {
-      return (
-        this.project.peopleCount +
-        " Person" +
-        (this.project.peopleCount === 1 ? "" : "s")
-      );
-    }
+    this.configure();
+    this.renderContent();
+  }
 
-    constructor(hostId: string, project: Project) {
-      super("single-project", hostId, false, project.id);
-      this.project = project;
+  @AutoBind
+  dragStartHandler(event: DragEvent) {
+    event.dataTransfer!.setData("text/plain", this.project.id);
+    event.dataTransfer!.effectAllowed = "move";
+  }
 
-      this.configure();
-      this.renderContent();
-    }
+  dragEndHandler(_: DragEvent) {}
 
-    @AutoBind
-    dragStartHandler(event: DragEvent) {
-      event.dataTransfer!.setData("text/plain", this.project.id);
-      event.dataTransfer!.effectAllowed = "move";
-    }
+  protected configure() {
+    this.specificElement.addEventListener("dragstart", this.dragStartHandler);
+    this.specificElement.addEventListener("dragend", this.dragEndHandler);
+  }
 
-    dragEndHandler(_: DragEvent) {}
+  protected renderContent() {
+    const title = this.specificElement.querySelector("h2")!;
+    title.textContent = this.project.title;
 
-    protected configure() {
-      this.specificElement.addEventListener("dragstart", this.dragStartHandler);
-      this.specificElement.addEventListener("dragend", this.dragEndHandler);
-    }
+    const people = this.specificElement.querySelector("h3")!;
+    people.textContent = this.peopleCount;
 
-    protected renderContent() {
-      const title = this.specificElement.querySelector("h2")!;
-      title.textContent = this.project.title;
-
-      const people = this.specificElement.querySelector("h3")!;
-      people.textContent = this.peopleCount;
-
-      const description = this.specificElement.querySelector("p")!;
-      description.textContent = this.project.description;
-    }
+    const description = this.specificElement.querySelector("p")!;
+    description.textContent = this.project.description;
   }
 }
