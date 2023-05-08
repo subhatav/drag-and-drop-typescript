@@ -1,4 +1,4 @@
-import { Project, ProjectStatus } from "../entity/project.js";
+import { Project, ProjectStatus } from "../entity/project";
 
 type Listener<T> = (items: T[]) => void;
 

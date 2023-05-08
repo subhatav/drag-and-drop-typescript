@@ -1,7 +1,7 @@
-import Foundation from "./base.js";
-import { projectState } from "../state/project.js";
-import { AutoBind } from "../decorator/auto-bind.js";
-import * as Validation from "../utility/validation.js";
+import Foundation from "./base";
+import { projectState } from "../state/project";
+import { AutoBind } from "../decorator/auto-bind";
+import * as Validation from "../utility/validation";
 
 export class ProjectInput extends Foundation<HTMLDivElement, HTMLFormElement> {
   private titleInputElement: HTMLInputElement;

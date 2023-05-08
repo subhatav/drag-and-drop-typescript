@@ -1,9 +1,9 @@
-import Foundation from "./base.js";
-import { ProjectItem } from "./item.js";
-import { projectState } from "../state/project.js";
-import { DragTarget } from "../entity/drag-drop.js";
-import { AutoBind } from "../decorator/auto-bind.js";
-import { Project, ProjectStatus } from "../entity/project.js";
+import Foundation from "./base";
+import { ProjectItem } from "./item";
+import { projectState } from "../state/project";
+import { DragTarget } from "../entity/drag-drop";
+import { AutoBind } from "../decorator/auto-bind";
+import { Project, ProjectStatus } from "../entity/project";
 
 export class ProjectList
   extends Foundation<HTMLDivElement, HTMLElement>

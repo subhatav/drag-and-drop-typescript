@@ -1,16 +1,20 @@
 {
   "name": "projects-manager-typescript",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Drag and drop your projects!",
   "main": "index.html",
   "scripts": {
-    "start": "lite-server"
+    "start": "webpack serve --stats minimal",
+    "build": "webpack -c webpack.config.prod.js"
   },
   "dependencies": {
-    "typescript": "^5.0.4"
+    "ts-loader": "^9.4.2",
+    "typescript": "^5.0.4",
+    "webpack": "^5.82.0",
+    "webpack-cli": "^5.1.0"
   },
   "devDependencies": {
-    "lite-server": "^2.6.1"
+    "webpack-dev-server": "^4.15.0"
   },
   "repository": {
     "type": "git",
